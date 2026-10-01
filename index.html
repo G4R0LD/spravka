@@ -411,55 +411,35 @@
   .btn-copy { background: linear-gradient(135deg, var(--accent), #4834d4); }
   .btn-share { background: linear-gradient(135deg, var(--accent-2), #0984e3); }
 
-  /* ===== СЧЁТЧИК ПОСЕЩЕНИЙ ===== */
-  .visitor-counter {
+  /* ===== СЧЁТЧИК HITS.SH ===== */
+  .hit-counter-wrap {
     margin-top: 25px;
-    padding: 12px 26px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1.3s ease-out;
+  }
+  .hit-counter-wrap a {
+    display: inline-block;
+    padding: 10px 18px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 16px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    font-family: "Segoe UI", sans-serif;
-    font-size: 15px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    z-index: 2;
-    animation: fadeInUp 1.3s ease-out;
-    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.25);
     transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.25);
+    text-decoration: none;
   }
-  .visitor-counter:hover {
+  .hit-counter-wrap a:hover {
     box-shadow: 0 8px 40px rgba(108, 92, 231, 0.5);
     border-color: rgba(108, 92, 231, 0.6);
+    transform: translateY(-2px);
   }
-  .visitor-counter .eye {
-    font-size: 20px;
-    filter: drop-shadow(0 0 6px rgba(0, 206, 201, 0.8));
-    animation: pulse 2.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-  }
-  .visitor-counter .label {
-    color: #b0b0c8;
-    font-size: 13px;
-    font-weight: 400;
-  }
-  .visitor-counter .count {
-    font-size: 22px;
-    font-weight: bold;
-    background: linear-gradient(90deg, var(--accent-2), var(--accent-3), var(--gold));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    min-width: 40px;
-    text-align: center;
-    transition: all 0.3s ease;
+  .hit-counter-wrap img {
+    display: block;
+    height: 24px;
   }
 
   /* ===== ПОДВАЛ САЙТА ===== */
@@ -544,12 +524,8 @@
 
     .btn { padding: 10px 16px; font-size: 13px; }
 
-    .visitor-counter {
-      padding: 10px 18px;
-      font-size: 13px;
-      margin-top: 18px;
-    }
-    .visitor-counter .count { font-size: 18px; }
+    .hit-counter-wrap a { padding: 8px 14px; }
+    .hit-counter-wrap img { height: 20px; }
   }
 
   /* ===== ПЕЧАТЬ ===== */
@@ -559,7 +535,7 @@
       padding: 0;
     }
     body::before { display: none; }
-    .site-header, .actions, .site-footer, .toast, .visitor-counter { display: none !important; }
+    .site-header, .actions, .site-footer, .toast, .hit-counter-wrap { display: none !important; }
     .page {
       box-shadow: none;
       width: auto;
@@ -744,11 +720,11 @@
     <button class="btn btn-share" onclick="shareIt()">🚀 Поделиться</button>
   </div>
 
-  <!-- СЧЁТЧИК ПОСЕЩЕНИЙ -->
-  <div class="visitor-counter">
-    <span class="eye">👀</span>
-    <span class="label">Посещений:</span>
-    <span class="count" id="visit-count">...</span>
+  <!-- СЧЁТЧИК HITS.SH -->
+  <div class="hit-counter-wrap">
+    <a href="https://hits.sh/g4r0ld.github.io/umny-spravka/" target="_blank" rel="noopener">
+      <img src="https://hits.sh/g4r0ld.github.io/umny-spravka.svg?view=today-total&label=Посещений" alt="Счётчик посещений">
+    </a>
   </div>
 
   <!-- ПОДВАЛ САЙТА -->
@@ -760,54 +736,6 @@
   <div class="toast" id="toast">✅ Ссылка скопирована!</div>
 
 <script>
-  /* ================= СЧЁТЧИК ПОСЕЩЕНИЙ ================= */
-  // Уникальный ключ для твоего сайта — можешь поменять
-  const COUNT_NAMESPACE = 'g4r0ld.github.io';
-  const COUNT_KEY = 'umny-spravka';
-  const COUNT_URL = 'https://api.countapi.xyz';
-  const counterEl = document.getElementById('visit-count');
-
-  // Красивая анимация "набегания" числа
-  function animateCount(target) {
-    const duration = 800;
-    const start = 0;
-    const startTime = performance.now();
-
-    function tick(now) {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out
-      const current = Math.floor(start + (target - start) * eased);
-      counterEl.textContent = current;
-      if (progress < 1) requestAnimationFrame(tick);
-      else counterEl.textContent = target;
-    }
-    requestAnimationFrame(tick);
-  }
-
-  async function initCounter() {
-    try {
-      const hasVisited = localStorage.getItem('g4r0ld_visited');
-
-      let endpoint;
-      if (hasVisited) {
-        // Уже был — просто получаем число
-        endpoint = `${COUNT_URL}/get/${COUNT_NAMESPACE}/${COUNT_KEY}`;
-      } else {
-        // Первый раз — увеличиваем счётчик
-        endpoint = `${COUNT_URL}/hit/${COUNT_NAMESPACE}/${COUNT_KEY}`;
-        localStorage.setItem('g4r0ld_visited', '1');
-      }
-
-      const res = await fetch(endpoint);
-      const data = await res.json();
-      animateCount(data.value || 0);
-    } catch (e) {
-      console.warn('Счётчик недоступен:', e);
-      counterEl.textContent = '—';
-    }
-  }
-  initCounter();
-
   /* ================= УВЕДОМЛЕНИЕ (ТОСТ) ================= */
   function showToast(text) {
     const toast = document.getElementById('toast');
