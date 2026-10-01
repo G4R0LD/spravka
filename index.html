@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Справка № 000-УМ — G4R0LD</title>
+<style>
+  @page {
+    size: A4;
+    margin: 12mm 15mm 12mm 20mm;
+  }
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: "Times New Roman", serif;
+    color: #000;
+    background: #e8e8e8;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+    padding: 10mm 14mm;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ===== ШАПКА ===== */
+  .header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+  }
+  .header .ministry {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .header .republic {
+    font-size: 11px;
+    font-style: italic;
+    margin-top: 1px;
+  }
+  .header .center {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .header .requisites {
+    font-size: 9px;
+    color: #222;
+    margin-top: 4px;
+    line-height: 1.35;
+  }
+
+  /* ===== ЗАГОЛОВОК ===== */
+  .doc-title {
+    text-align: center;
+    margin: 10px 0 3px;
+  }
+  .doc-title .spravka {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .doc-title .num {
+    font-size: 15px;
+    margin-top: 1px;
+  }
+  .doc-title .subtitle {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 3px;
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    padding-bottom: 1px;
+  }
+
+  /* ===== ПОЛЯ ДАННЫХ ===== */
+  .fields {
+    margin: 14px 0 8px;
+    font-size: 13px;
+  }
+
+  .field-row {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+
+  .field-row .label {
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 130px;
+    line-height: 22px;
+  }
+
+  /* value — колонка: линия + подпись, обе одинаковой ширины */
+  .field-row .value {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ЛИНИЯ: без паддингов слева/справа — текст начинается точно с края линии */
+  .field-row .value .line {
+    border-bottom: 1px solid #000;
+    padding: 0 0 1px 0;
+    font-weight: bold;
+    line-height: 22px;
+    min-height: 22px;
+    width: 100%;
+    display: block;
+  }
+
+  /* ПОДПИСЬ: центрируется по той же ширине, что и линия */
+  .field-row .value .hint {
+    font-size: 9px;
+    color: #444;
+    font-style: italic;
+    text-align: center;
+    margin-top: 2px;
+    line-height: 1.1;
+    width: 100%;
+  }
+
+  .nickname {
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  /* ===== ЗАКЛЮЧЕНИЕ ===== */
+  .conclusion {
+    margin: 10px 0;
+    padding: 10px 16px;
+    border: 2px solid #000;
+    background: #f2f2f2;
+    text-align: center;
+  }
+  .conclusion .head {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .conclusion .text {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .conclusion .verdict {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    letter-spacing: 2px;
+    margin: 6px 0;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    display: inline-block;
+    padding: 4px 16px;
+  }
+  .conclusion .mama-note {
+    margin-top: 6px;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 1.4;
+    border-top: 1px dashed #666;
+    padding-top: 5px;
+  }
+
+  /* ===== ТАБЛИЦА ===== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 8px 0;
+  }
+  table th {
+    background: #e0e0e0;
+    color: #000;
+    padding: 4px 7px;
+    text-align: left;
+    border: 1px solid #000;
+    font-weight: bold;
+  }
+  table td {
+    padding: 3px 7px;
+    border: 1px solid #000;
+  }
+  table tr:nth-child(even) td {
+    background: #f2f2f2;
+  }
+
+  /* ===== ПРОТИВОПОКАЗАНИЯ ===== */
+  .warnings {
+    margin: 8px 0;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .warnings .head {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+    font-size: 11px;
+  }
+  .warnings ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  /* ===== НИЗ: ПОДПИСЬ + ПЕЧАТЬ ===== */
+  .footer-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 10px;
+    position: relative;
+  }
+
+  .doctor {
+    font-size: 12px;
+    line-height: 1.6;
+    width: 58%;
+  }
+  .doctor .position {
+    margin-bottom: 18px;
+  }
+  .doctor .sign-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .doctor .sign-line {
+    border-bottom: 1px solid #000;
+    width: 160px;
+    height: 28px;
+    position: relative;
+  }
+  .doctor .sign-line .signature {
+    position: absolute;
+    bottom: 1px;
+    left: 6px;
+    font-family: "Brush Script MT", "Segoe Script", cursive;
+    font-size: 20px;
+    color: #000;
+    transform: rotate(-4deg);
+    white-space: nowrap;
+  }
+  .doctor .fio {
+    font-size: 10px;
+    color: #000;
+  }
+  .doctor .small-label {
+    font-size: 8px;
+    color: #444;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* ===== ПЕЧАТЬ ===== */
+  .stamp {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    transform: rotate(-8deg);
+    opacity: 0.9;
+    flex-shrink: 0;
+    margin-bottom: -5px;
+  }
+  .stamp svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ===== ПОДВАЛ ===== */
+  .bottom-note {
+    margin-top: 8px;
+    border-top: 1px dashed #666;
+    padding-top: 4px;
+    font-size: 8px;
+    color: #444;
+    font-style: italic;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ===== ПЕЧАТЬ ===== */
+  @media print {
+    body {
+      background: #fff;
+      padding: 0;
+    }
+    .page {
+      box-shadow: none;
+      width: auto;
+      height: auto;
+      padding: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ШАПКА -->
+  <div class="header">
+    <div class="ministry">Министерство Умственных Дел</div>
+    <div class="republic">Республики Здравого Смысла</div>
+    <div class="center">ГУ «Центр Признания Ума»</div>
+    <div class="requisites">
+      Адрес: г. Умный, ул. Логическая, д. 1 &nbsp;•&nbsp; Тел.: 8-800-РАЗ-УМ-ЕСТЬ<br>
+      E-mail: ti.umny@moza.ru &nbsp;•&nbsp; Лицензия № 000-УМ от 01.01.2020 (бессрочная)
+    </div>
+  </div>
+
+  <!-- ЗАГОЛОВОК -->
+  <div class="doc-title">
+    <div class="spravka">Справка</div>
+    <div class="num">№ 000-УМ</div>
+    <div class="subtitle">о признании гражданина УМНЫМ</div>
+  </div>
+
+  <!-- ПОЛЯ -->
+  <div class="fields">
+
+    <div class="field-row">
+      <span class="label">Выдана:</span>
+      <div class="value">
+        <div class="line">Гарольду</div>
+        <div class="hint">(фамилия, имя, отчество полностью)</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <span class="label">Известен как:</span>
+      <div class="value">
+        <div class="line"><span class="nickname">G4R0LD</span></div>
+        <div class="hint">(название канала / псевдоним)</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <span class="label">Дата рождения:</span>
+      <div class="value">
+        <div class="line">«___» ______________ ______ г.</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <span class="label">Место выдачи:</span>
+      <div class="value">
+        <div class="line">г. ____________________</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ЗАКЛЮЧЕНИЕ -->
+  <div class="conclusion">
+    <div class="head">Заключение</div>
+    <div class="text">
+      Настоящим удостоверяется, что гражданин <b>Гарольд</b>,<br>
+      известный под псевдонимом <span class="nickname">G4R0LD</span>,<br>
+      по результатам комплексного умственного освидетельствования
+    </div>
+    <div class="verdict">ПРИЗНАН УМНЫМ</div>
+    <div class="text">
+      Уровень ума: <b>ВЫШЕ СРЕДНЕГО</b> &nbsp;•&nbsp; Срок действия: <b>БЕССРОЧНО</b>
+    </div>
+    <div class="mama-note">
+      Дополнительно подтверждено показаниями свидетеля — <b>мамы</b>:<br>
+      «Он у меня самый умный, я всегда это знала».
+    </div>
+  </div>
+
+  <!-- ТАБЛИЦА -->
+  <table>
+    <tr>
+      <th>Показатель</th>
+      <th>Результат</th>
+    </tr>
+    <tr><td>Наличие мозга</td><td>обнаружен</td></tr>
+    <tr><td>Количество извилин</td><td>в пределах нормы</td></tr>
+    <tr><td>Способность мыслить</td><td>подтверждена</td></tr>
+    <tr><td>Чувство юмора</td><td>присутствует</td></tr>
+    <tr><td>Умение понять эту справку</td><td>да</td></tr>
+    <tr><td>Умение стримить и не сгореть</td><td>подтверждено</td></tr>
+    <tr><td>Показания мамы</td><td>«самый умный»</td></tr>
+    <tr><td>Общая оценка</td><td><b>УМЁН</b></td></tr>
+  </table>
+
+  <!-- ПРОТИВОПОКАЗАНИЯ -->
+  <div class="warnings">
+    <div class="head">Противопоказания</div>
+    <ul>
+      <li>Повышенная самооценка;</li>
+      <li>Склонность говорить «я же говорил(а)»;</li>
+      <li>Опасность блистать умом в прямом эфире;</li>
+      <li>Риск получить звание «самый умный в чате»;</li>
+      <li>Ссылаться на маму как на главный источник доказательств.</li>
+    </ul>
+  </div>
+
+  <!-- ПОДПИСЬ + ПЕЧАТЬ -->
+  <div class="footer-block">
+    <div class="doctor">
+      <div class="position">
+        Главный врач по умственным делам:
+      </div>
+      <div class="sign-row">
+        <div class="sign-line">
+          <span class="signature">В. С. Мозгов</span>
+        </div>
+        <div class="fio">/ В. С. Мозгов /</div>
+      </div>
+      <div class="small-label">(подпись) &nbsp;&nbsp;&nbsp;&nbsp; (расшифровка подписи)</div>
+    </div>
+
+    <!-- ПЕЧАТЬ -->
+    <div class="stamp">
+      <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="140" fill="none" stroke="#000" stroke-width="6"/>
+        <circle cx="150" cy="150" r="125" fill="none" stroke="#000" stroke-width="2"/>
+
+        <path id="topArc" d="M 40,150 A 110,110 0 0 1 260,150" fill="none"/>
+        <text font-family="Times New Roman" font-size="22" fill="#000" font-weight="bold" letter-spacing="2">
+          <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+            ЦЕНТР ПРИЗНАНИЯ УМА
+          </textPath>
+        </text>
+
+        <path id="botArc" d="M 55,175 A 100,100 0 0 0 245,175" fill="none"/>
+        <text font-family="Times New Roman" font-size="15" fill="#000" letter-spacing="1">
+          <textPath href="#botArc" startOffset="50%" text-anchor="middle">
+            г. УМНЫЙ • ЛИЦ. № 000-УМ
+          </textPath>
+        </text>
+
+        <text x="150" y="145" font-family="Times New Roman" font-size="42" fill="#000" font-weight="bold" text-anchor="middle">
+          УМНО
+        </text>
+        <text x="150" y="180" font-family="Times New Roman" font-size="18" fill="#000" text-anchor="middle">
+          ★ ОДОБРЕНО ★
+        </text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ПОДВАЛ -->
+  <div class="bottom-note">
+    <span>Справка выдана в юмористических целях.</span>
+    <span>«___» _________ 20___ г.</span>
+  </div>
+
+</div>
+</body>
+</html>
